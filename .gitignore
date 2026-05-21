@@ -1,5 +1,5 @@
 # ===== Secretos =====
-config.js
+# config.js se sube al repo (contiene configuración pública del proyecto)
 
 # ===== Sistema =====
 .DS_Store

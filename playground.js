@@ -7,9 +7,6 @@
 //   gemma2-9b-it             → Google Gemma, muy rápido
 //
 // ── API Key ───────────────────────────────────────────────────────────────────
-// Cargada desde config.js (no incluido en el repo).
-// Para usar localmente: copiá config.example.js → config.js y pegá tu key.
-// Obtenés una key gratis en: https://console.groq.com
 const GROQ_API_KEY = (typeof GROQ_CONFIG !== 'undefined' && GROQ_CONFIG.apiKey)
   ? GROQ_CONFIG.apiKey
   : '';

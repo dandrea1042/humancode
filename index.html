@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HumanCode — Aprende a programar sin morir en el intento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- Phosphor Icons (duotone + fill) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">
+        <span class="logo-icon">
+          <i class="ph-duotone ph-lightning icon-logo"></i>
+        </span>
+        <span class="logo-text">HumanCode</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#como-funciona">Cómo funciona</a></li>
+        <li><a href="#patrones">Patrones</a></li>
+        <li><a href="playground.html" class="nav-link-highlight">
+          <i class="ph-duotone ph-magic-wand" style="font-size:13px;vertical-align:middle;margin-right:3px"></i>
+          Playground
+        </li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="#" class="btn-ghost">Log in</a>
+        <a href="#" class="btn-primary nav-cta">
+          Empezar gratis
+          <i class="ph-bold ph-arrow-right icon-btn"></i>
+        </a>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#patrones">Patrones</a>
+      <a href="playground.html">Playground</a>
+      <a href="#faq">FAQ</a>
+      <a href="#" class="btn-primary" style="text-align:center;margin-top:8px;">Empezar gratis</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="hero-orb orb-1"></div>
+      <div class="hero-orb orb-2"></div>
+      <div class="hero-orb orb-3"></div>
+    </div>
+    <div class="container">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        100% gratis &nbsp;·&nbsp; sin registro &nbsp;·&nbsp; sin excusas
+      </div>
+      <h1 class="hero-title">
+        El código no es<br />
+        <span class="gradient-text">tan difícil.</span><br />
+        Te lo aseguramos.
+      </h1>
+      <p class="hero-subtitle">
+        HumanCode convierte tus ideas en código real.<br />
+        Nada de memorizar. Nada de aburrirte. Solo entender.
+      </p>
+      <div class="hero-cta">
+        <a href="playground.html" class="btn-primary btn-lg btn-glow">
+          ¿Qué tema quieres aprender hoy?
+          <i class="ph-bold ph-rocket-launch icon-btn"></i>
+        </a>
+        <a href="#como-funciona" class="btn-ghost btn-lg">Ver cómo funciona</a>
+      </div>
+
+      <!-- Demo card -->
+      <div class="hero-demo">
+        <div class="demo-card">
+          <div class="demo-step">
+            <div class="demo-label human">
+              <i class="ph-duotone ph-chat-circle-dots icon-label"></i> Lenguaje humano
+            </div>
+            <div class="demo-text">"Si hace calor, prende el ventilador."</div>
+          </div>
+          <div class="demo-arrow">
+            <i class="ph-bold ph-arrow-down icon-arrow"></i>
+          </div>
+          <div class="demo-step">
+            <div class="demo-label logic">
+              <i class="ph-duotone ph-brain icon-label"></i> Lógica
+            </div>
+            <div class="demo-text">Condicional — evaluar temperatura</div>
+          </div>
+          <div class="demo-arrow">
+            <i class="ph-bold ph-arrow-down icon-arrow"></i>
+          </div>
+          <div class="demo-step">
+            <div class="demo-label code">
+              <i class="ph-duotone ph-terminal-window icon-label"></i> Código
+            </div>
+            <div class="demo-code">
+              <span class="kw">if</span> temperatura <span class="op">&gt;</span> <span class="num">30</span>:<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;usar_ventilador()
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Patrones base</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">0</span>
+          <span class="stat-label">Memorización forzada</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-num">100%</span>
+          <span class="stat-label">Interactivo</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="how-it-works" id="como-funciona">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">El método</div>
+        <h2 class="section-title">5 pasos y ya lo entiendes</h2>
+        <p class="section-subtitle">Sin teoría aburrida. Empezamos con algo que ya conoces.</p>
+      </div>
+      <div class="steps-grid">
+
+        <div class="step-card" data-step="1">
+          <div class="step-number">01</div>
+          <div class="step-icon-wrap step-icon-yellow">
+            <i class="ph-duotone ph-sparkle icon-step"></i>
+          </div>
+          <h3>Tu vida real</h3>
+          <p>Empezamos con algo que ya conoces.</p>
+          <div class="step-example">"Mientras yo tenga energía, seguiré corriendo."</div>
+        </div>
+
+        <div class="step-connector">
+          <i class="ph-bold ph-caret-right icon-connector"></i>
+        </div>
+
+        <div class="step-card" data-step="2">
+          <div class="step-number">02</div>
+          <div class="step-icon-wrap step-icon-blue">
+            <i class="ph-duotone ph-magnifying-glass icon-step"></i>
+          </div>
+          <h3>El patrón</h3>
+          <p>Detectamos qué estructura de código se esconde detrás.</p>
+          <div class="step-example">Loop — repetir mientras la condición sea verdadera</div>
+        </div>
+
+        <div class="step-connector">
+          <i class="ph-bold ph-caret-right icon-connector"></i>
+        </div>
+
+        <div class="step-card" data-step="3">
+          <div class="step-number">03</div>
+          <div class="step-icon-wrap step-icon-cyan">
+            <i class="ph-duotone ph-eye icon-step"></i>
+          </div>
+          <h3>Lo ves</h3>
+          <p>El patrón se anima. Lo ves, lo entiendes, lo recuerdas.</p>
+          <div class="step-visual loop-mini">
+            <i class="ph-duotone ph-arrows-clockwise icon-loop-anim"></i>
+          </div>
+        </div>
+
+        <div class="step-connector">
+          <i class="ph-bold ph-caret-right icon-connector"></i>
+        </div>
+
+        <div class="step-card" data-step="4">
+          <div class="step-number">04</div>
+          <div class="step-icon-wrap step-icon-purple">
+            <i class="ph-duotone ph-code icon-step"></i>
+          </div>
+          <h3>El código</h3>
+          <p>Aparece el código real. Ya tiene sentido porque entendiste la idea.</p>
+          <div class="step-code">
+            <span class="kw">while</span> energia <span class="op">&gt;</span> <span class="num">0</span>:<br />
+            &nbsp;&nbsp;correr()
+          </div>
+        </div>
+
+        <div class="step-connector">
+          <i class="ph-bold ph-caret-right icon-connector"></i>
+        </div>
+
+        <div class="step-card" data-step="5">
+          <div class="step-number">05</div>
+          <div class="step-icon-wrap step-icon-green">
+            <i class="ph-duotone ph-game-controller icon-step"></i>
+          </div>
+          <h3>Lo practicas</h3>
+          <p>Ejercicios cortos, feedback al instante. Subes de nivel.</p>
+          <div class="step-example">
+            +50 XP &nbsp;
+            <i class="ph-fill ph-check-circle icon-inline-sm" style="color:var(--success)"></i>
+            &nbsp; ¡Correcto!
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PATRONES -->
+  <section class="patterns-section" id="patrones">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Biblioteca</div>
+        <h2 class="section-title">Elige tu primer patrón</h2>
+        <p class="section-subtitle">Cada uno tiene su color, su ícono y su historia. Empieza por el que más te llame.</p>
+      </div>
+      <div class="patterns-grid">
+
+        <div class="pattern-card" data-pattern="loop">
+          <div class="pattern-icon-wrap" style="background:rgba(59,130,246,0.15);border-color:rgba(59,130,246,0.3);">
+            <i class="ph-duotone ph-arrows-clockwise icon-pattern" style="color:#3B82F6"></i>
+          </div>
+          <div class="pattern-info">
+            <div class="pattern-tag" style="color:#3B82F6;background:rgba(59,130,246,0.1);">Loop</div>
+            <h3>Repetición</h3>
+            <p>Hacer algo varias veces hasta que se cumpla una condición.</p>
+            <div class="pattern-words">
+              <span>repetir</span><span>mientras</span><span>ciclo</span><span>recorrer</span>
+            </div>
+          </div>
+          <div class="pattern-difficulty">
+            <span class="diff-dot active"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+            <span class="diff-label">Básico</span>
+          </div>
+          <button class="pattern-btn" data-pattern-target="loop">
+            Aprender <i class="ph-bold ph-arrow-right icon-inline-sm"></i>
+          </button>
+        </div>
+
+        <div class="pattern-card" data-pattern="condition">
+          <div class="pattern-icon-wrap" style="background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.3);">
+            <i class="ph-duotone ph-git-branch icon-pattern" style="color:#F59E0B"></i>
+          </div>
+          <div class="pattern-info">
+            <div class="pattern-tag" style="color:#F59E0B;background:rgba(245,158,11,0.1);">Condicional</div>
+            <h3>Decisión</h3>
+            <p>Elegir un camino según si algo es verdadero o falso.</p>
+            <div class="pattern-words">
+              <span>si</span><span>entonces</span><span>decidir</span><span>comparar</span>
+            </div>
+          </div>
+          <div class="pattern-difficulty">
+            <span class="diff-dot active"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+            <span class="diff-label">Básico</span>
+          </div>
+          <button class="pattern-btn" data-pattern-target="condition">
+            Aprender <i class="ph-bold ph-arrow-right icon-inline-sm"></i>
+          </button>
+        </div>
+
+        <div class="pattern-card" data-pattern="function">
+          <div class="pattern-icon-wrap" style="background:rgba(139,92,246,0.15);border-color:rgba(139,92,246,0.3);">
+            <i class="ph-duotone ph-lightning icon-pattern" style="color:#8B5CF6"></i>
+          </div>
+          <div class="pattern-info">
+            <div class="pattern-tag" style="color:#8B5CF6;background:rgba(139,92,246,0.1);">Función</div>
+            <h3>Acción reutilizable</h3>
+            <p>Un bloque de instrucciones que puedes usar cuando quieras.</p>
+            <div class="pattern-words">
+              <span>acción</span><span>ejecutar</span><span>reutilizar</span><span>llamar</span>
+            </div>
+          </div>
+          <div class="pattern-difficulty">
+            <span class="diff-dot active"></span><span class="diff-dot active"></span><span class="diff-dot"></span>
+            <span class="diff-label">Intermedio</span>
+          </div>
+          <button class="pattern-btn" data-pattern-target="function">
+            Aprender <i class="ph-bold ph-arrow-right icon-inline-sm"></i>
+          </button>
+        </div>
+
+        <div class="pattern-card" data-pattern="variable">
+          <div class="pattern-icon-wrap" style="background:rgba(16,185,129,0.15);border-color:rgba(16,185,129,0.3);">
+            <i class="ph-duotone ph-package icon-pattern" style="color:#10B981"></i>
+          </div>
+          <div class="pattern-info">
+            <div class="pattern-tag" style="color:#10B981;background:rgba(16,185,129,0.1);">Variable</div>
+            <h3>Contenedor</h3>
+            <p>Una caja donde guardas información para usarla después.</p>
+            <div class="pattern-words">
+              <span>guardar</span><span>almacenar</span><span>recordar</span><span>caja</span>
+            </div>
+          </div>
+          <div class="pattern-difficulty">
+            <span class="diff-dot active"></span><span class="diff-dot"></span><span class="diff-dot"></span>
+            <span class="diff-label">Básico</span>
+          </div>
+          <button class="pattern-btn" data-pattern-target="variable">
+            Aprender <i class="ph-bold ph-arrow-right icon-inline-sm"></i>
+          </button>
+        </div>
+
+        <div class="pattern-card" data-pattern="error">
+          <div class="pattern-icon-wrap" style="background:rgba(239,68,68,0.15);border-color:rgba(239,68,68,0.3);">
+            <i class="ph-duotone ph-warning-octagon icon-pattern" style="color:#EF4444"></i>
+          </div>
+          <div class="pattern-info">
+            <div class="pattern-tag" style="color:#EF4444;background:rgba(239,68,68,0.1);">Error</div>
+            <h3>Manejo de errores</h3>
+            <p>Qué hacer cuando algo sale mal. Anticipar problemas.</p>
+            <div class="pattern-words">
+              <span>intentar</span><span>fallar</span><span>capturar</span><span>recuperar</span>
+            </div>
+          </div>
+          <div class="pattern-difficulty">
+            <span class="diff-dot active"></span><span class="diff-dot active"></span><span class="diff-dot"></span>
+            <span class="diff-label">Intermedio</span>
+          </div>
+          <button class="pattern-btn" data-pattern-target="error">
+            Aprender <i class="ph-bold ph-arrow-right icon-inline-sm"></i>
+          </button>
+        </div>
+
+        <div class="pattern-card pattern-locked">
+          <div class="pattern-icon-wrap" style="background:rgba(100,116,139,0.1);border-color:rgba(100,116,139,0.2);">
+            <i class="ph-duotone ph-lock-key icon-pattern" style="color:#64748B"></i>
+          </div>
+          <div class="pattern-info">
+            <div class="pattern-tag" style="color:#64748B;background:rgba(100,116,139,0.1);">Array</div>
+            <h3>Lista de cosas</h3>
+            <p>Guardar múltiples elementos en orden.</p>
+            <div class="pattern-words">
+              <span>lista</span><span>colección</span><span>grupo</span>
+            </div>
+          </div>
+          <div class="pattern-difficulty">
+            <span class="diff-dot active"></span><span class="diff-dot active"></span><span class="diff-dot"></span>
+            <span class="diff-label">Intermedio</span>
+          </div>
+          <button class="pattern-btn locked-btn">Próximamente</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYGROUND TEASER -->
+  <section class="playground-section" id="playground">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Interactivo</div>
+        <h2 class="section-title">Escribe en humano, recibe código</h2>
+        <p class="section-subtitle">Escribe lo que quieres hacer. Nosotros lo traducimos. Sin trampa.</p>
+      </div>
+      <div class="pg-teaser">
+        <div class="pg-teaser-preview">
+          <div class="pg-teaser-bar">
+            <span class="pg-teaser-dot" style="background:#EF4444"></span>
+            <span class="pg-teaser-dot" style="background:#F59E0B"></span>
+            <span class="pg-teaser-dot" style="background:#10B981"></span>
+            <span class="pg-teaser-label">
+              <i class="ph-duotone ph-magic-wand" style="font-size:13px;color:var(--primary-light);margin-right:4px"></i>
+              HumanCode Playground
+            </span>
+          </div>
+          <div class="pg-teaser-body">
+            <div class="pg-teaser-col pg-teaser-input">
+              <div class="pg-teaser-col-label">
+                <i class="ph-duotone ph-chat-teardrop-text" style="font-size:14px;color:var(--primary-light)"></i>
+                Tu idea
+              </div>
+              <div class="pg-teaser-text">"Si llueve, usa sombrilla."</div>
+              <div class="pg-teaser-chips">
+                <span>Si llueve, usa sombrilla.</span>
+                <span>Repite esto 5 veces.</span>
+                <span>Guarda el nombre.</span>
+              </div>
+              <div class="pg-teaser-btn-mock">
+                <i class="ph-duotone ph-magic-wand" style="font-size:16px"></i>
+                Traducir a código
+              </div>
+            </div>
+            <div class="pg-teaser-col pg-teaser-output">
+              <div class="pg-teaser-col-label">
+                <i class="ph-duotone ph-robot" style="font-size:14px;color:var(--secondary)"></i>
+                Resultado
+              </div>
+              <div class="pg-teaser-result-block" style="--c:#F59E0B">
+                <span class="pg-teaser-rb-label">Patrón detectado</span>
+                <span class="pg-teaser-badge" style="background:rgba(245,158,11,0.15);color:#F59E0B;border:1px solid rgba(245,158,11,0.3)">
+                  <i class="ph-duotone ph-git-branch" style="font-size:13px"></i> Condicional
+                </span>
+              </div>
+              <div class="pg-teaser-result-block" style="--c:#6366F1">
+                <span class="pg-teaser-rb-label">Código Python</span>
+                <div class="pg-teaser-code">
+                  <span class="kw">if</span> lluvia <span class="op">==</span> <span class="kw">True</span>:<br/>
+                  &nbsp;&nbsp;<span class="fn">usar_sombrilla</span>()
+                </div>
+              </div>
+            </div>
+            <div class="pg-teaser-col pg-teaser-learn">
+              <div class="pg-teaser-col-label">
+                <i class="ph-duotone ph-books" style="font-size:14px;color:var(--accent)"></i>
+                Aprende más
+              </div>
+              <div class="pg-teaser-pills">
+                <span style="--c:#3B82F6"><i class="ph-duotone ph-arrows-clockwise" style="font-size:12px"></i> Loop</span>
+                <span style="--c:#F59E0B"><i class="ph-duotone ph-git-branch" style="font-size:12px"></i> Condicional</span>
+                <span style="--c:#8B5CF6"><i class="ph-duotone ph-lightning" style="font-size:12px"></i> Función</span>
+                <span style="--c:#10B981"><i class="ph-duotone ph-package" style="font-size:12px"></i> Variable</span>
+                <span style="--c:#EF4444"><i class="ph-duotone ph-warning-octagon" style="font-size:12px"></i> Error</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pg-teaser-cta">
+          <a href="playground.html" class="btn-primary btn-lg btn-glow">
+            <i class="ph-duotone ph-magic-wand icon-btn"></i>
+            Abrir el Playground
+          </a>
+          <p class="pg-teaser-hint">
+            <i class="ph-fill ph-check-circle" style="font-size:14px;color:var(--success)"></i>
+            Gratis · Sin registro · Funciona en el navegador
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonials-section" id="testimonios">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">Comunidad</div>
+        <h2 class="section-title">Lo que dicen los que ya lo probaron</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+          </div>
+          <p>"Por fin entendí qué es un loop. Siempre lo memorizaba pero nunca lo entendía de verdad."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">M</div>
+            <div>
+              <strong>María G.</strong>
+              <span>16 años, estudiante</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card featured">
+          <div class="testimonial-stars">
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+          </div>
+          <p>"La analogía de la caja para variables cambió todo. Ahora cuando veo código, pienso en ideas, no en sintaxis."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">C</div>
+            <div>
+              <strong>Carlos R.</strong>
+              <span>Autodidacta, 19 años</span>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+            <i class="ph-fill ph-star icon-star"></i>
+          </div>
+          <p>"Mis alumnos de secundaria lo usan y por primera vez todos siguen el ritmo. El método visual es clave."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar">A</div>
+            <div>
+              <strong>Ana P.</strong>
+              <span>Profesora de informática</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">FAQ</div>
+        <h2 class="section-title">Tus dudas, resueltas</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Necesito saber programar para empezar?
+            <i class="ph-bold ph-plus faq-icon-svg"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Para nada. HumanCode está hecho para gente que nunca tocó código. Empezamos desde cero, con lenguaje de todos los días.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Qué lenguaje de programación enseña?
+            <i class="ph-bold ph-plus faq-icon-svg"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Python, porque su sintaxis es la más parecida al lenguaje humano. En versiones futuras sumamos JavaScript, Java y más.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Cuánto tiempo necesito por día?
+            <i class="ph-bold ph-plus faq-icon-svg"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Con 15-20 minutos diarios dominas los patrones básicos en 2-3 semanas. Va a tu ritmo, sin presión.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Es diferente a Codecademy o Duolingo?
+            <i class="ph-bold ph-plus faq-icon-svg"></i>
+          </button>
+          <div class="faq-answer">
+            <p>Sí. Otras plataformas te tiran sintaxis desde el primer día. Nosotros empezamos por la idea, luego la lógica, luego el código. Menos frustración, más retención.</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            ¿Es gratis?
+            <i class="ph-bold ph-plus faq-icon-svg"></i>
+          </button>
+          <div class="faq-answer">
+            <p>El acceso básico es 100% gratis. En el futuro habrá una versión premium con IA personalizada y más contenido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-card">
+        <div class="cta-orb"></div>
+        <div class="cta-badge">Sin tarjeta. Sin trampa.</div>
+        <h2>¿Seguís esperando<br/>el momento perfecto?</h2>
+        <p>Este es. Tarda 2 minutos en empezar.</p>
+        <a href="playground.html" class="btn-primary btn-lg btn-glow">
+          Empezar ahora
+          <i class="ph-bold ph-rocket-launch icon-btn"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo">
+            <span class="logo-icon">
+              <i class="ph-duotone ph-lightning icon-logo"></i>
+            </span>
+            <span class="logo-text">HumanCode</span>
+          </a>
+          <p>Programación en lenguaje humano.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <h4>Producto</h4>
+            <a href="#como-funciona">Cómo funciona</a>
+            <a href="#patrones">Patrones</a>
+            <a href="playground.html">Playground</a>
+          </div>
+          <div class="footer-col">
+            <h4>Aprender</h4>
+            <a href="#">Loops</a>
+            <a href="#">Condicionales</a>
+            <a href="#">Funciones</a>
+            <a href="#">Variables</a>
+          </div>
+          <div class="footer-col">
+            <h4>Empresa</h4>
+            <a href="#">Sobre nosotros</a>
+            <a href="#">Blog</a>
+            <a href="#">Contacto</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 HumanCode. Todos los derechos reservados.</p>
+        <div class="footer-legal">
+          <a href="#">Privacidad</a>
+          <a href="#">Términos</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="index.js"></script>
+</body>
+</html>

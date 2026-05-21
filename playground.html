@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playground — HumanCode</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="playground.css" />
+</head>
+<body class="pg-body">
+
+  <!-- NAV -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">
+        <span class="logo-icon"><i class="ph-duotone ph-lightning icon-logo"></i></span>
+        <span class="logo-text">HumanCode</span>
+      </a>
+      <div class="pg-nav-center">
+        <span class="pg-nav-title">
+          <i class="ph-duotone ph-magic-wand" style="font-size:16px;vertical-align:middle;margin-right:6px;color:var(--primary-light)"></i>
+          Playground
+        </span>
+      </div>
+      <div class="nav-actions">
+        <a href="index.html" class="btn-ghost btn-sm">
+          <i class="ph-bold ph-arrow-left" style="font-size:14px"></i>
+          Volver
+        </a>
+        <a href="#" class="btn-primary btn-sm">
+          Empezar gratis
+          <i class="ph-bold ph-rocket-launch" style="font-size:14px"></i>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN LAYOUT -->
+  <main class="pg-main">
+
+    <!-- LEFT: INPUT PANEL -->
+    <aside class="pg-panel pg-input-panel">
+      <div class="pg-panel-header">
+        <div class="pg-panel-title">
+          <i class="ph-duotone ph-chat-teardrop-text" style="font-size:20px;color:var(--primary-light)"></i>
+          <span>Tu idea</span>
+        </div>
+        <div class="pg-panel-actions">
+          <button class="pg-icon-btn" id="clearBtn" title="Limpiar">
+            <i class="ph-bold ph-trash" style="font-size:15px"></i>
+          </button>
+        </div>
+      </div>
+
+      <textarea
+        id="humanInput"
+        class="pg-textarea"
+        placeholder="Escribe lo que quieres hacer en español...&#10;&#10;Ej: Si llueve, usa sombrilla.&#10;Repite esto 5 veces.&#10;Guarda el nombre del usuario."
+        spellcheck="false"
+      ></textarea>
+
+      <!-- Quick examples -->
+      <div class="pg-examples-section">
+        <p class="pg-examples-label">
+          <i class="ph-bold ph-lightning-slash" style="font-size:12px;color:var(--accent)"></i>
+          Ejemplos rápidos
+        </p>
+        <div class="pg-examples-grid">
+          <button class="pg-example-btn" onclick="setExample('Si llueve, usa sombrilla.')">
+            <span class="pg-ex-icon" style="background:rgba(245,158,11,0.15);color:#F59E0B">
+              <i class="ph-duotone ph-git-branch" style="font-size:16px"></i>
+            </span>
+            <span>Si llueve, usa sombrilla.</span>
+          </button>
+          <button class="pg-example-btn" onclick="setExample('Repite esto 5 veces.')">
+            <span class="pg-ex-icon" style="background:rgba(99,102,241,0.15);color:var(--primary-light)">
+              <i class="ph-duotone ph-arrows-clockwise" style="font-size:16px"></i>
+            </span>
+            <span>Repite esto 5 veces.</span>
+          </button>
+          <button class="pg-example-btn" onclick="setExample('Guarda el nombre del usuario.')">
+            <span class="pg-ex-icon" style="background:rgba(16,185,129,0.15);color:#10B981">
+              <i class="ph-duotone ph-package" style="font-size:16px"></i>
+            </span>
+            <span>Guarda el nombre del usuario.</span>
+          </button>
+          <button class="pg-example-btn" onclick="setExample('Mientras tenga energía, sigue corriendo.')">
+            <span class="pg-ex-icon" style="background:rgba(34,211,238,0.12);color:var(--cyan)">
+              <i class="ph-duotone ph-arrows-clockwise" style="font-size:16px"></i>
+            </span>
+            <span>Mientras tenga energía, sigue corriendo.</span>
+          </button>
+          <button class="pg-example-btn" onclick="setExample('Intenta abrir el archivo, si falla avísame.')">
+            <span class="pg-ex-icon" style="background:rgba(239,68,68,0.12);color:#EF4444">
+              <i class="ph-duotone ph-warning-octagon" style="font-size:16px"></i>
+            </span>
+            <span>Intenta abrir el archivo, si falla avísame.</span>
+          </button>
+          <button class="pg-example-btn" onclick="setExample('Crea una acción que salude a alguien.')">
+            <span class="pg-ex-icon" style="background:rgba(236,72,153,0.12);color:var(--secondary)">
+              <i class="ph-duotone ph-lightning" style="font-size:16px"></i>
+            </span>
+            <span>Crea una acción que salude a alguien.</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Translate button -->
+      <button class="pg-translate-btn btn-glow" id="translateBtn" onclick="translateCode()">
+        <i class="ph-duotone ph-magic-wand" style="font-size:20px"></i>
+        <span id="translateBtnText">Traducir a código</span>
+        <kbd class="pg-kbd">Ctrl + Enter</kbd>
+      </button>
+    </aside>
+
+    <!-- CENTER: RESULT PANEL -->
+    <section class="pg-panel pg-result-panel" id="resultPanel">
+      <div class="pg-panel-header">
+        <div class="pg-panel-title">
+          <i class="ph-duotone ph-robot" style="font-size:20px;color:var(--secondary)"></i>
+          <span>Resultado</span>
+        </div>
+        <div class="pg-panel-actions" id="resultActions" style="display:none">
+          <button class="pg-icon-btn" id="copyBtn" title="Copiar código" onclick="copyCode()">
+            <i class="ph-bold ph-copy" style="font-size:15px"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty state -->
+      <div class="pg-empty" id="pgEmpty">
+        <div class="pg-empty-icon">
+          <i class="ph-duotone ph-brain" style="font-size:56px;color:var(--primary-light);opacity:0.4"></i>
+        </div>
+        <p class="pg-empty-title">Escribe tu idea y presiona traducir</p>
+        <p class="pg-empty-sub">Convierte cualquier frase en código Python real</p>
+      </div>
+
+      <!-- Result blocks (hidden until translation) -->
+      <div class="pg-result-blocks" id="pgResultBlocks" style="display:none">
+
+        <div class="pg-result-block" id="rb-phrase">
+          <div class="pg-rb-label">
+            <i class="ph-duotone ph-chat-circle-dots" style="font-size:14px"></i>
+            Tu frase
+          </div>
+          <div class="pg-rb-content" id="rb-phrase-content"></div>
+        </div>
+
+        <div class="pg-result-block" id="rb-pattern">
+          <div class="pg-rb-label">
+            <i class="ph-duotone ph-magnifying-glass" style="font-size:14px"></i>
+            Patrón detectado
+          </div>
+          <div class="pg-rb-content" id="rb-pattern-content"></div>
+        </div>
+
+        <div class="pg-result-block" id="rb-logic">
+          <div class="pg-rb-label">
+            <i class="ph-duotone ph-brain" style="font-size:14px"></i>
+            Lógica
+          </div>
+          <div class="pg-rb-content" id="rb-logic-content"></div>
+        </div>
+
+        <div class="pg-result-block pg-code-block" id="rb-code">
+          <div class="pg-rb-label">
+            <i class="ph-duotone ph-code" style="font-size:14px"></i>
+            Código Python
+            <span class="pg-lang-badge">Python 3</span>
+          </div>
+          <div class="pg-code-area" id="rb-code-content"></div>
+        </div>
+
+        <!-- DESGLOSE DEL CÓDIGO -->
+        <div class="pg-result-block pg-breakdown-block" id="rb-breakdown" style="display:none">
+          <div class="pg-rb-label">
+            <i class="ph-duotone ph-magnifying-glass-plus" style="font-size:14px"></i>
+            ¿Qué hace este código?
+          </div>
+          <div id="rb-breakdown-content"></div>
+        </div>
+
+        <!-- CHAT DE IA -->
+        <div class="pg-result-block pg-chat-block" id="rb-chat" style="display:none">
+          <div class="pg-rb-label">
+            <i class="ph-duotone ph-chats" style="font-size:14px"></i>
+            Pregúntale a la IA sobre este código
+            <span class="pg-chat-badge">
+              <i class="ph-fill ph-circle" style="font-size:7px;color:var(--success)"></i>
+              En línea
+            </span>
+          </div>
+
+          <!-- Mensajes -->
+          <div class="pg-chat-messages" id="chatMessages">
+            <div class="pg-chat-welcome">
+              <i class="ph-duotone ph-robot" style="font-size:28px;color:var(--primary-light);opacity:0.6"></i>
+              <p>Tengo el código acá. Preguntame lo que quieras, sin miedo 👇</p>
+              <div class="pg-chat-suggestions" id="chatSuggestions">
+                <button class="pg-chat-suggestion" onclick="askSuggestion(this)">¿Qué hace este código?</button>
+                <button class="pg-chat-suggestion" onclick="askSuggestion(this)">Explicame como si tuviera 10 años</button>
+                <button class="pg-chat-suggestion" onclick="askSuggestion(this)">¿Qué pasa si cambio los números?</button>
+                <button class="pg-chat-suggestion" onclick="askSuggestion(this)">¿Por qué se usa esto y no otra cosa?</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input -->
+          <div class="pg-chat-input-row">
+            <input
+              type="text"
+              id="chatInput"
+              class="pg-chat-input"
+              placeholder="Ej: ¿Para qué sirve el for? ¿Qué significa range?"
+              autocomplete="off"
+              onkeydown="if(event.key==='Enter')sendChat()"
+            />
+            <button class="pg-chat-send" id="chatSendBtn" onclick="sendChat()" title="Enviar">
+              <i class="ph-bold ph-paper-plane-tilt" style="font-size:16px"></i>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RIGHT: LEARN PANEL -->
+    <aside class="pg-panel pg-learn-panel" id="learnPanel">
+      <div class="pg-panel-header">
+        <div class="pg-panel-title">
+          <i class="ph-duotone ph-books" style="font-size:20px;color:var(--accent)"></i>
+          <span>Aprende más</span>
+        </div>
+      </div>
+
+      <div class="pg-learn-empty" id="learnEmpty">
+        <i class="ph-duotone ph-sparkle" style="font-size:36px;color:var(--accent);opacity:0.4"></i>
+        <p>Traduce una frase para ver la lección del patrón detectado.</p>
+      </div>
+
+      <div class="pg-learn-content" id="learnContent" style="display:none">
+        <!-- filled dynamically -->
+      </div>
+
+      <!-- Pattern quick-nav -->
+      <div class="pg-pattern-nav">
+        <p class="pg-examples-label" style="margin-bottom:10px">
+          <i class="ph-bold ph-squares-four" style="font-size:12px;color:var(--primary-light)"></i>
+          Todos los patrones
+        </p>
+        <div class="pg-pattern-pills">
+          <button class="pg-pill" style="--c:#3B82F6" onclick="quickLesson('loop')">
+            <i class="ph-duotone ph-arrows-clockwise" style="font-size:14px"></i> Loop
+          </button>
+          <button class="pg-pill" style="--c:#F59E0B" onclick="quickLesson('condition')">
+            <i class="ph-duotone ph-git-branch" style="font-size:14px"></i> Condicional
+          </button>
+          <button class="pg-pill" style="--c:#8B5CF6" onclick="quickLesson('function')">
+            <i class="ph-duotone ph-lightning" style="font-size:14px"></i> Función
+          </button>
+          <button class="pg-pill" style="--c:#10B981" onclick="quickLesson('variable')">
+            <i class="ph-duotone ph-package" style="font-size:14px"></i> Variable
+          </button>
+          <button class="pg-pill" style="--c:#EF4444" onclick="quickLesson('error')">
+            <i class="ph-duotone ph-warning-octagon" style="font-size:14px"></i> Error
+          </button>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- BOTTOM STATUS BAR -->
+  <div class="pg-statusbar">
+    <span id="pgStatus" class="pg-status-idle">
+      <i class="ph-fill ph-circle" style="font-size:8px;color:var(--success)"></i>
+      Listo
+    </span>
+    <span class="pg-status-hint">
+      <select id="modelSelect" class="pg-model-select" title="Modelo de IA">
+        <option value="llama-3.3-70b-versatile" selected>llama-3.3-70b ⚡</option>
+        <option value="llama3-70b-8192">llama3-70b</option>
+        <option value="llama3-8b-8192">llama3-8b (rápido)</option>
+        <option value="gemma2-9b-it">gemma2-9b</option>
+      </select>
+      &nbsp;
+      <kbd class="pg-kbd">Ctrl+Enter</kbd> para traducir
+    </span>
+  </div>
+
+  <!-- Config local (no incluido en el repo, ver config.example.js) -->
+  <script src="config.js"></script>
+  <script src="playground.js"></script>
+</body>
+</html>

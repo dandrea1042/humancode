@@ -1123,3 +1123,44 @@ section { padding: 100px 0; }
   .pg-teaser-col:last-child { border-bottom: none; }
   .pg-teaser-learn { display: none; }
 }
+
+/* ===== PARA QUIÉN ES ===== */
+.forwho-section { padding: 80px 0; }
+.forwho-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.forwho-card {
+  background: rgba(30,41,59,0.8);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+.forwho-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99,102,241,0.3);
+  box-shadow: 0 8px 32px rgba(99,102,241,0.1);
+}
+.forwho-icon { font-size: 2rem; line-height: 1; }
+.forwho-card p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.65; margin: 0; }
+.forwho-cta { text-align: center; }
+.forwho-note {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.25);
+  border-radius: 50px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  color: var(--text);
+}
+@media (max-width: 768px) {
+  .forwho-grid { grid-template-columns: 1fr; }
+  .forwho-note { font-size: 0.9rem; padding: 10px 16px; }
+}

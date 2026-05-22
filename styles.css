@@ -100,15 +100,14 @@ a { text-decoration: none; color: inherit; }
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  padding: 14px 0;
+  padding: 16px 0;
   transition: all 0.3s ease;
 }
 .navbar.scrolled {
-  background: rgba(10,10,15,0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
-  padding: 10px 0;
+  padding: 12px 0;
 }
 .nav-container {
   max-width: 1200px;
@@ -121,34 +120,13 @@ a { text-decoration: none; color: inherit; }
 .nav-logo {
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   letter-spacing: -0.02em;
-  text-decoration: none;
-  color: var(--text);
-  transition: opacity 0.2s;
 }
-.nav-logo:hover { opacity: 0.85; }
-
-/* Logo imagen */
-.logo-img {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  display: block;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  background: transparent;
-}
-.nav-logo:hover .logo-img {
-  transform: scale(1.08);
-  box-shadow: 0 0 12px rgba(139,92,246,0.5);
-}
-
-/* Mantener compatibilidad con ícono antiguo si existe */
 .logo-icon { display: flex; align-items: center; }
-
 .nav-links {
   display: flex;
   list-style: none;
@@ -157,7 +135,7 @@ a { text-decoration: none; color: inherit; }
 }
 .nav-links a {
   color: var(--text-muted);
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: 50px;
   font-size: 0.88rem;
   font-weight: 600;
@@ -165,7 +143,7 @@ a { text-decoration: none; color: inherit; }
 }
 .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.07); }
 .nav-actions { display: flex; align-items: center; gap: 8px; }
-.nav-cta { font-size: 0.88rem !important; padding: 9px 18px !important; }
+.nav-cta { font-size: 0.88rem !important; padding: 10px 20px !important; }
 .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
 .hamburger span { display: block; width: 22px; height: 2px; background: var(--text-muted); border-radius: 2px; transition: all 0.3s; }
 .mobile-menu {

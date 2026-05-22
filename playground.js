@@ -769,13 +769,15 @@ function setTemplate(example, btn) {
     apply(example);
   }
 
-  // Iluminar la card clickeada brevemente
   if (btn) {
     document.querySelectorAll('.pg-template-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     setTimeout(() => btn.classList.remove('active'), 800);
   }
 }
+
+// ── Copiar código ─────────────────────────────────────────────────────────────
+function copyCode() {
   const code = window._lastCode || '';
   if (!code) return;
   navigator.clipboard.writeText(code)
@@ -885,26 +887,13 @@ function quickLesson(key) {
 }
 
 // ── Keyboard shortcut ─────────────────────────────────────────────────────────
-document.getElementById('humanInput').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && e.ctrlKey) translateCode();
-});
+// (manejado en DOMContentLoaded)
 
 // ── Clear button ──────────────────────────────────────────────────────────────
-document.getElementById('clearBtn').addEventListener('click', () => {
-  document.getElementById('humanInput').value = '';
-  document.getElementById('humanInput').focus();
-  resetResult();
-  setStatus('idle', 'Listo');
-});
+// (manejado en DOMContentLoaded)
 
 // ── Init: leer URL param ?pattern= ───────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const pattern = params.get('pattern');
-  if (pattern && QUICK_LESSONS[pattern]) {
-    quickLesson(pattern);
-  }
-});
+// (manejado en DOMContentLoaded arriba)
 
 // ── Chat de IA contextual ─────────────────────────────────────────────────────
 
@@ -927,7 +916,7 @@ function initChat(ai) {
   document.getElementById('chatMessages').innerHTML = `
     <div class="pg-chat-welcome">
       <i class="ph-duotone ph-robot" style="font-size:28px;color:var(--primary-light);opacity:0.6"></i>
-      <p>Tengo el código acá. Preguntame lo que quieras, sin miedo 👇</p>
+      <p>Tengo el código aquí. Pregúntame lo que quieras, sin miedo 👇</p>
       <div class="pg-chat-suggestions" id="chatSuggestions">
         <button class="pg-chat-suggestion" onclick="askSuggestion(this)">¿Qué hace este código?</button>
         <button class="pg-chat-suggestion" onclick="askSuggestion(this)">Explicame como si tuviera 10 años</button>

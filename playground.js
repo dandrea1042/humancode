@@ -746,7 +746,15 @@ function setTemplate(template, example) {
   ta.value = example;
   ta.focus();
   ta.style.borderColor = 'var(--primary)';
-  setTimeout(() => ta.style.borderColor = '', 800);
+  ta.style.boxShadow = '0 0 0 2px rgba(99,102,241,0.25)';
+  setTimeout(() => {
+    ta.style.borderColor = '';
+    ta.style.boxShadow = '';
+  }, 1200);
+  // Scroll suave al textarea
+  ta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Seleccionar el texto para que el usuario lo vea
+  ta.select();
 }
   const code = window._lastCode || '';
   if (!code) return;

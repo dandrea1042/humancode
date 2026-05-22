@@ -32,10 +32,6 @@
           <i class="ph-bold ph-arrow-left" style="font-size:14px"></i>
           Volver
         </a>
-        <a href="#" class="btn-primary btn-sm">
-          Empezar gratis
-          <i class="ph-bold ph-rocket-launch" style="font-size:14px"></i>
-        </a>
       </div>
     </div>
   </nav>
@@ -104,7 +100,7 @@
       <textarea
         id="humanInput"
         class="pg-textarea"
-        placeholder="Describe una situación con lógica...&#10;&#10;Ej: Si llueve, usa sombrilla.&#10;Repite esto 5 veces.&#10;Guarda el nombre del usuario."
+        placeholder="Describe una situación con lógica...&#10;&#10;Ej: Si llueve, usa sombrilla.&#10;Ej: Repite el saludo 5 veces.&#10;Ej: Guarda el nombre del usuario.&#10;&#10;Usa: si · mientras · repite · guarda"
         spellcheck="false"
       ></textarea>
 
@@ -135,8 +131,13 @@
         <div class="pg-empty-icon">
           <i class="ph-duotone ph-brain" style="font-size:56px;color:var(--primary-light);opacity:0.4"></i>
         </div>
-        <p class="pg-empty-title">Escribe tu idea y presiona traducir</p>
-        <p class="pg-empty-sub">Convierte cualquier frase en código Python real</p>
+        <p class="pg-empty-title">Elige una estructura o escribe tu frase</p>
+        <p class="pg-empty-sub">Usa palabras como "si", "mientras", "repite" o "guarda"</p>
+        <div class="pg-empty-hints">
+          <span onclick="setExample('Si llueve, usa sombrilla.')"><i class="ph-duotone ph-git-branch" style="font-size:13px;color:#F59E0B"></i> "Si llueve, usa sombrilla"</span>
+          <span onclick="setExample('Repite el saludo 3 veces.')"><i class="ph-duotone ph-arrows-clockwise" style="font-size:13px;color:#3B82F6"></i> "Repite el saludo 3 veces"</span>
+          <span onclick="setExample('Guarda el nombre del usuario.')"><i class="ph-duotone ph-package" style="font-size:13px;color:#10B981"></i> "Guarda el nombre del usuario"</span>
+        </div>
       </div>
 
       <!-- Result blocks (hidden until translation) -->
@@ -153,7 +154,7 @@
         <div class="pg-result-block" id="rb-pattern">
           <div class="pg-rb-label">
             <i class="ph-duotone ph-magnifying-glass" style="font-size:14px"></i>
-            Patrón detectado
+            Concepto detectado
           </div>
           <div class="pg-rb-content" id="rb-pattern-content"></div>
         </div>
@@ -161,7 +162,7 @@
         <div class="pg-result-block" id="rb-logic">
           <div class="pg-rb-label">
             <i class="ph-duotone ph-brain" style="font-size:14px"></i>
-            Lógica
+            ¿Qué significa esto?
           </div>
           <div class="pg-rb-content" id="rb-logic-content"></div>
         </div>
@@ -169,7 +170,7 @@
         <div class="pg-result-block pg-code-block" id="rb-code">
           <div class="pg-rb-label">
             <i class="ph-duotone ph-code" style="font-size:14px"></i>
-            Código Python
+            Así se ve en código Python
             <span class="pg-lang-badge">Python 3</span>
           </div>
           <div class="pg-code-area" id="rb-code-content"></div>
@@ -199,10 +200,10 @@
           <div class="pg-chat-messages" id="chatMessages">
             <div class="pg-chat-welcome">
               <i class="ph-duotone ph-robot" style="font-size:28px;color:var(--primary-light);opacity:0.6"></i>
-              <p>Tengo el código acá. Preguntame lo que quieras, sin miedo 👇</p>
+              <p>Tengo el código aquí. Pregúntame lo que quieras, sin miedo 👇</p>
               <div class="pg-chat-suggestions" id="chatSuggestions">
                 <button class="pg-chat-suggestion" onclick="askSuggestion(this)">¿Qué hace este código?</button>
-                <button class="pg-chat-suggestion" onclick="askSuggestion(this)">Explicame como si tuviera 10 años</button>
+                <button class="pg-chat-suggestion" onclick="askSuggestion(this)">Explícame como si tuviera 10 años</button>
                 <button class="pg-chat-suggestion" onclick="askSuggestion(this)">¿Qué pasa si cambio los números?</button>
                 <button class="pg-chat-suggestion" onclick="askSuggestion(this)">¿Por qué se usa esto y no otra cosa?</button>
               </div>

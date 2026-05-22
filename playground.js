@@ -14,65 +14,135 @@ const GROQ_MODEL   = 'llama-3.3-70b-versatile';
 
 // ── Colores y metadatos por patrón ────────────────────────────────────────────
 const PATTERN_META = {
-  loop:      { icon: 'ph-arrows-clockwise', color: '#3B82F6', name: 'Loop' },
-  condition: { icon: 'ph-git-branch',       color: '#F59E0B', name: 'Condicional' },
-  variable:  { icon: 'ph-package',          color: '#10B981', name: 'Variable' },
-  function:  { icon: 'ph-lightning',        color: '#8B5CF6', name: 'Función' },
-  error:     { icon: 'ph-warning-octagon',  color: '#EF4444', name: 'Manejo de errores' },
-  array:     { icon: 'ph-list-bullets',     color: '#22D3EE', name: 'Array / Lista' },
-  object:    { icon: 'ph-cube',             color: '#EC4899', name: 'Objeto / Diccionario' },
-  other:     { icon: 'ph-code',             color: '#94A3B8', name: 'Código general' },
+  loop:      { icon: 'ph-arrows-clockwise', color: '#3B82F6', name: 'Repetición',        level: 2 },
+  condition: { icon: 'ph-git-branch',       color: '#F59E0B', name: 'Decisión',           level: 1 },
+  variable:  { icon: 'ph-package',          color: '#10B981', name: 'Guardar datos',      level: 3 },
+  function:  { icon: 'ph-lightning',        color: '#8B5CF6', name: 'Acción guardada',    level: 4 },
+  error:     { icon: 'ph-warning-octagon',  color: '#EF4444', name: 'Manejo de errores',  level: 5 },
+  array:     { icon: 'ph-list-bullets',     color: '#22D3EE', name: 'Lista de cosas',     level: 3 },
+  object:    { icon: 'ph-cube',             color: '#EC4899', name: 'Objeto',             level: 4 },
+  other:     { icon: 'ph-code',             color: '#94A3B8', name: 'Código general',     level: 1 },
+  invalid:   { icon: 'ph-warning',          color: '#F59E0B', name: 'Sin lógica aún',     level: 0 },
 };
 
+// ── Sistema de niveles ────────────────────────────────────────────────────────
+const LEVELS = [
+  { id: 1, name: 'Decisiones',    icon: 'ph-git-branch',       color: '#F59E0B', desc: 'Si esto, entonces aquello',     patterns: ['condition'] },
+  { id: 2, name: 'Repeticiones',  icon: 'ph-arrows-clockwise', color: '#3B82F6', desc: 'Hacer algo varias veces',       patterns: ['loop'] },
+  { id: 3, name: 'Memoria',       icon: 'ph-package',          color: '#10B981', desc: 'Guardar y recordar datos',      patterns: ['variable', 'array'] },
+  { id: 4, name: 'Acciones',      icon: 'ph-lightning',        color: '#8B5CF6', desc: 'Crear instrucciones reutilizables', patterns: ['function', 'object'] },
+  { id: 5, name: 'Protección',    icon: 'ph-shield',           color: '#EF4444', desc: 'Qué hacer cuando algo falla',   patterns: ['error'] },
+];
+
+// XP por traducción exitosa
+let userXP = parseInt(localStorage.getItem('hc_xp') || '0');
+let userStreak = parseInt(localStorage.getItem('hc_streak') || '0');
+let lastDate = localStorage.getItem('hc_last_date') || '';
+
+function addXP(amount) {
+  userXP += amount;
+  localStorage.setItem('hc_xp', userXP);
+  // Streak
+  const today = new Date().toDateString();
+  if (lastDate !== today) {
+    userStreak++;
+    localStorage.setItem('hc_streak', userStreak);
+    localStorage.setItem('hc_last_date', today);
+  }
+  renderXPBar();
+}
+
+function renderXPBar() {
+  const el = document.getElementById('pgXPBar');
+  if (!el) return;
+  const level = Math.floor(userXP / 100) + 1;
+  const progress = userXP % 100;
+  el.innerHTML = `
+    <span class="pg-xp-badge">
+      <i class="ph-fill ph-star" style="font-size:11px;color:#F59E0B"></i>
+      ${userXP} XP
+    </span>
+    <div class="pg-xp-track">
+      <div class="pg-xp-fill" style="width:${progress}%"></div>
+    </div>
+    <span class="pg-xp-level">Nv. ${level}</span>
+    ${userStreak > 1 ? `<span class="pg-streak"><i class="ph-fill ph-fire" style="font-size:11px;color:#F59E0B"></i> ${userStreak}</span>` : ''}
+  `;
+}
+
 // ── Prompt del sistema ────────────────────────────────────────────────────────
-const SYSTEM_PROMPT = `Sos HumanCode, un amigo paciente y alentador que le explica programacion a alguien que nunca vio codigo.
+const SYSTEM_PROMPT = `Eres HumanCode, un profesor paciente y entusiasta que enseña programacion a personas que nunca han visto codigo en su vida.
+
+TU MISION PRINCIPAL:
+Ensenar PENSAMIENTO COMPUTACIONAL, no solo generar codigo.
+Tu objetivo es que el usuario ENTIENDA la logica, no que reciba codigo magico.
 
 TU PERSONALIDAD:
-- Eres calido, entusiasta y nunca juzgas si alguien no entiende algo
-- Celebras cada pequeño avance ("¡Genial!", "¡Eso es exactamente!", "¡Ya lo estás entendiendo!")
-- Si algo es dificil, lo normalizas ("Es normal que esto confunda al principio, a todos nos pasó")
-- Usas un tono de charla, como si estuvieras sentado al lado explicandole a un amigo
+- Eres calido, alentador y nunca juzgas
+- Celebras cada avance: "Genial!", "Eso es exactamente!", "Ya lo estas entendiendo!"
+- Si algo es dificil, lo normalizas: "Es normal que esto confunda al principio"
+- Hablas como un amigo, no como un manual tecnico
 - Nunca das por sentado que el otro sabe algo
 
-REGLA DE ORO: Cero palabras tecnicas sin explicar. Si tenes que usar una, la acompañas con una analogia tierna y concreta.
-
 ANALOGIAS QUE USAS:
-- variable = una cajita con nombre donde guardas cosas (como tu mochila con tu nombre)
-- loop = repetir algo automaticamente (como cuando Spotify pone la misma playlist en repeat)
-- if/else = tomar una decision (como decidir si llevas paraguas segun si esta nublado)
-- funcion = una receta que guardas para usar cuando quieras (como la receta de tu comida favorita)
-- error = el programa te avisa que algo salio mal (como cuando el juego dice "game over" y te explica por que)
-- lista = una lista de cosas en orden (como tu lista de reproduccion en Spotify)
-- clase = un molde para crear cosas iguales (como el molde para hacer galletitas, todas salen con la misma forma)
+- variable = cajita con nombre donde guardas cosas (como tu mochila con tu nombre)
+- loop = repetir automaticamente (como Spotify en repeat)
+- if/else = tomar una decision (como decidir si llevas paraguas segun el clima)
+- funcion = receta guardada para usar cuando quieras
+- error = el programa te avisa que algo salio mal (como "game over" en un videojuego)
+- lista = lista de reproduccion en Spotify: varios elementos en orden
 
-IMPORTANTE: Responde UNICAMENTE con un objeto JSON valido. Sin markdown, sin bloques de codigo, sin texto antes o despues.
+REGLA CRITICA DE VALIDACION PEDAGOGICA:
+Antes de generar codigo, evalua si la frase contiene alguna estructura logica computacional real:
+- Condicion: palabras como "si", "cuando", "en caso de", "dependiendo", "si no"
+- Repeticion: palabras como "repite", "mientras", "cada vez", "varias veces", "para cada"
+- Almacenamiento: palabras como "guarda", "recuerda", "almacena", "el valor de", "la variable"
+- Accion reutilizable: palabras como "crea una accion", "define", "cada vez que llames"
+- Manejo de error: palabras como "si falla", "intenta", "en caso de error", "si no funciona"
+
+SI LA FRASE NO CONTIENE NINGUNA ESTRUCTURA LOGICA (ej: "ser feliz", "estudiar ingles", "ir al gimnasio", "quiero aprender"):
+- Devuelve pattern: "invalid"
+- NO generes codigo
+- Explica amablemente por que no tiene logica computacional
+- Da 3 sugerencias concretas de como mejorar la frase
+
+IMPORTANTE: Responde UNICAMENTE con un objeto JSON valido. Sin markdown, sin texto extra.
 
 El JSON debe tener exactamente estas claves:
-- pattern: una de estas palabras exactas: loop, condition, variable, function, error, array, object, other
-- patternName: nombre simple y amigable del patron (ej: "Repeticion", "Decision", "Cajita de datos")
-- humanExplanation: explicacion en maximo 2 oraciones, calida y alentadora, como si le hablaras a un amigo. Usa analogias de videojuegos, redes sociales, musica, comida, deporte. Empieza con algo positivo si podes
-- logicExplanation: en 1 oracion simple, que hace el codigo. Sin palabras tecnicas. Tono amable
-- code: codigo Python 3 (usa \\n para saltos de linea, NUNCA saltos de linea reales)
-- codeExplanation: explica el codigo como una historia corta y entretenida. Maximo 3 oraciones. Tono calido
-- analogy: una analogia MUY concreta y cercana para un adolescente (Spotify, TikTok, WhatsApp, videojuegos, escuela, etc). Que sea tierna y facil de visualizar
-- exercisePrompt: un ejercicio divertido con contexto real y motivador (ej: "Imaginate que estas armando tu lista de canciones favoritas...")
-- exerciseHint: una pista alentadora que use la misma analogia, como si te estuviera susurrando la respuesta un amigo
-- exerciseSolution: solucion en Python (usa \\n para saltos de linea)
-- tip1: un consejo util y amigable, en lenguaje simple, que empiece con algo como "Acordate que..." o "Un truco copado es..."
-- tip2: otro consejo con un ejemplo cotidiano, tono calido
-- breakdownSummary: en 2 oraciones maximas, que hace el codigo. Como si se lo explicaras a alguien con mucha paciencia y cariño
-- breakdownLines: array de objetos por cada linea importante. Cada objeto: { "line": "fragmento de codigo", "explanation": "que hace esta linea, en lenguaje de todos los dias, tono amable" }
-- breakdownKeywords: array con conceptos clave. Cada objeto: { "keyword": "nombre", "type": "keyword|funcion|operador|tipo|metodo", "description": "que hace, con una analogia simple y calida" }
-- classes: array de clases en el codigo. Si no hay, usar []. Cada objeto: { "name": "NombreClase", "description": "para que sirve, con analogia cotidiana y calida", "inherits": "clase padre o null", "attributes": [ { "name": "atributo", "description": "que guarda, con ejemplo concreto y cercano" } ], "methods": [ { "name": "metodo", "params": "parametros o vacio", "description": "que hace, en lenguaje simple y amigable", "returns": "que devuelve o null" } ] }
+
+PARA FRASES VALIDAS (con logica computacional):
+- pattern: loop | condition | variable | function | error | array | object | other
+- patternName: nombre amigable (ej: "Decision", "Repeticion", "Cajita de datos")
+- humanExplanation: max 2 oraciones calidasy alentadoras con analogias cotidianas
+- logicExplanation: 1 oracion simple sin tecnicismos
+- logicMap: objeto con la estructura visual de la logica. Formato: { "type": "condition|loop|variable|function|error", "parts": [ { "label": "CONDICION", "value": "texto de la condicion" }, { "label": "SI ES VERDAD", "value": "que pasa" }, { "label": "SI ES FALSO", "value": "que pasa o null" } ] }
+- code: codigo Python 3 valido (usa \\n para saltos de linea)
+- codeExplanation: historia corta y entretenida, max 3 oraciones
+- analogy: analogia concreta para adolescente (Spotify, TikTok, videojuegos, escuela)
+- exercisePrompt: ejercicio divertido con contexto real
+- exerciseHint: pista alentadora
+- exerciseSolution: solucion Python (usa \\n para saltos)
+- tip1: consejo util que empiece con "Recuerda que..." o "Un truco es..."
+- tip2: otro consejo con ejemplo cotidiano
+- breakdownSummary: max 2 oraciones explicando el codigo con paciencia
+- breakdownLines: array de { "line": "codigo", "explanation": "que hace en lenguaje simple" } — entre 3 y 8
+- breakdownKeywords: array de { "keyword": "nombre", "type": "keyword|funcion|operador|tipo|metodo", "description": "que hace con analogia" } — entre 2 y 6
+- classes: array de clases (o [] si no hay)
+- xpEarned: numero entre 10 y 50 segun complejidad
+
+PARA FRASES INVALIDAS (sin logica computacional):
+- pattern: "invalid"
+- invalidReason: explicacion amable de por que no tiene logica computacional (1-2 oraciones)
+- invalidHint: que palabra o estructura agregar para que funcione
+- invalidSuggestions: array de exactamente 3 versiones mejoradas de la frase que SI tengan logica
+- xpEarned: 0
 
 Reglas del codigo:
 - Python 3 valido y funcional
-- Nombres de variables en espanol y descriptivos
+- Variables en espanol y descriptivas
 - Comentarios en espanol, breves y amigables
-- USA \\n para saltos de linea en code y exerciseSolution
-- NO uses comillas dobles dentro del JSON, usa comillas simples en el codigo Python
-- breakdownLines: entre 3 y 8 entradas
-- breakdownKeywords: entre 2 y 6 entradas`;
+- USA \\n para saltos de linea, NUNCA saltos reales
+- Usa comillas simples en el codigo Python`;
 
 // ── Llamada a Groq API ────────────────────────────────────────────────────────
 async function callGroq(userInput) {
@@ -129,6 +199,7 @@ async function callGroq(userInput) {
     patternName:      parsed.patternName      || parsed.pattern || 'Código',
     humanExplanation: parsed.humanExplanation || '',
     logicExplanation: parsed.logicExplanation || '',
+    logicMap:         parsed.logicMap         || null,
     code:             (parsed.code            || '').replace(/\\n/g, '\n'),
     codeExplanation:  parsed.codeExplanation  || '',
     analogy:          parsed.analogy          || '',
@@ -137,6 +208,11 @@ async function callGroq(userInput) {
     breakdownLines:   Array.isArray(parsed.breakdownLines)    ? parsed.breakdownLines    : [],
     breakdownKeywords:Array.isArray(parsed.breakdownKeywords) ? parsed.breakdownKeywords : [],
     classes:          Array.isArray(parsed.classes)           ? parsed.classes           : [],
+    xpEarned:         parsed.xpEarned         || 0,
+    // Campos para frases inválidas
+    invalidReason:      parsed.invalidReason      || '',
+    invalidHint:        parsed.invalidHint        || '',
+    invalidSuggestions: Array.isArray(parsed.invalidSuggestions) ? parsed.invalidSuggestions : [],
     exercise: {
       prompt:   parsed.exercisePrompt   || parsed.exercise?.prompt   || '',
       hint:     parsed.exerciseHint     || parsed.exercise?.hint     || '',
@@ -200,15 +276,15 @@ function resetResult() {
   document.getElementById('learnContent').style.display = 'none';
   document.getElementById('rb-breakdown').style.display = 'none';
   document.getElementById('rb-chat').style.display = 'none';
-  // Limpiar historial de chat
+  document.getElementById('rb-code').style.display = 'block';
   window._chatHistory = [];
   window._chatCode = '';
   document.getElementById('pgEmpty').innerHTML = `
     <div class="pg-empty-icon">
       <i class="ph-duotone ph-brain" style="font-size:56px;color:var(--primary-light);opacity:0.4"></i>
     </div>
-    <p class="pg-empty-title">Escribe tu idea y presiona traducir</p>
-    <p class="pg-empty-sub">Convierte cualquier frase en código Python real</p>`;
+    <p class="pg-empty-title">Describe una situación con "si", "cuando" o "mientras"</p>
+    <p class="pg-empty-sub">Ej: "Si llueve, usa sombrilla" · "Repite esto 5 veces"</p>`;
 }
 
 function showToast(msg, type = 'success') {
@@ -373,8 +449,44 @@ function renderBreakdown(ai, color) {
   `;
 }
 
+// ── Render mapa lógico visual ─────────────────────────────────────────────────
+function renderLogicMap(logicMap, color) {
+  if (!logicMap || !logicMap.parts) return '';
+  const typeLabels = {
+    condition: { icon: 'ph-git-branch',       label: 'Decisión' },
+    loop:      { icon: 'ph-arrows-clockwise', label: 'Repetición' },
+    variable:  { icon: 'ph-package',          label: 'Guardar dato' },
+    function:  { icon: 'ph-lightning',        label: 'Acción' },
+    error:     { icon: 'ph-warning-octagon',  label: 'Protección' },
+  };
+  const t = typeLabels[logicMap.type] || { icon: 'ph-code', label: 'Lógica' };
+  const partsHtml = logicMap.parts.map(p => `
+    <div class="pg-lm-part">
+      <span class="pg-lm-label" style="color:${color}">${p.label}</span>
+      <span class="pg-lm-value">${escapeHtml(p.value || '')}</span>
+    </div>`).join('<div class="pg-lm-arrow"><i class="ph-bold ph-arrow-down" style="font-size:12px;color:var(--text-muted)"></i></div>');
+  return `
+    <div class="pg-logic-map">
+      <div class="pg-lm-header">
+        <i class="ph-duotone ${t.icon}" style="font-size:14px;color:${color}"></i>
+        <span style="color:${color};font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">${t.label} detectada</span>
+      </div>
+      <div class="pg-lm-parts">${partsHtml}</div>
+      <div class="pg-lm-footer">
+        <i class="ph-bold ph-arrow-down" style="font-size:14px;color:var(--text-muted)"></i>
+        <span style="font-size:0.75rem;color:var(--text-muted)">Se convierte en Python</span>
+      </div>
+    </div>`;
+}
+
 // ── Render resultado ──────────────────────────────────────────────────────────
 function renderResult(input, ai) {
+  // Manejar frase inválida pedagógicamente
+  if (ai.pattern === 'invalid') {
+    renderInvalidFeedback(input, ai);
+    return;
+  }
+
   const meta = PATTERN_META[ai.pattern] || PATTERN_META.other;
   const color = meta.color;
 
@@ -388,15 +500,16 @@ function renderResult(input, ai) {
     `<span style="color:var(--text);font-style:italic">"${escapeHtml(input)}"</span>`;
   document.getElementById('rb-phrase').querySelector('.pg-rb-label').style.color = color;
 
-  // Patrón
+  // Patrón + mapa lógico
   document.getElementById('rb-pattern-content').innerHTML = `
-    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:${ai.logicMap ? '12px' : '0'}">
       <span class="pg-pattern-badge" style="background:${color}20;color:${color};border:1px solid ${color}40">
         <i class="ph-duotone ${meta.icon}" style="font-size:18px"></i>
         ${ai.patternName || meta.name}
       </span>
       <span style="font-size:0.82rem;color:var(--text-muted)">${ai.analogy || ''}</span>
-    </div>`;
+    </div>
+    ${renderLogicMap(ai.logicMap, color)}`;
   document.getElementById('rb-pattern').querySelector('.pg-rb-label').style.color = color;
 
   // Explicación humana
@@ -416,16 +529,68 @@ function renderResult(input, ai) {
   // Desglose del código
   renderBreakdown(ai, color);
 
-  // Mostrar chat y resetear conversación
+  // Chat
   initChat(ai);
 
   // Panel de aprendizaje
   renderLearnPanel(ai, meta);
 
-  setStatus('idle', `Patrón: ${ai.patternName || meta.name}`);
-  // Mostrar modelo usado en status
+  // XP
+  if (ai.xpEarned > 0) {
+    addXP(ai.xpEarned);
+    showToast(`+${ai.xpEarned} XP — ¡Bien hecho!`);
+  }
+
   const modelUsed = document.getElementById('modelSelect')?.value || GROQ_MODEL;
   setStatus('idle', `${ai.patternName || meta.name} · ${modelUsed}`);
+}
+
+// ── Feedback pedagógico para frases inválidas ─────────────────────────────────
+function renderInvalidFeedback(input, ai) {
+  document.getElementById('pgEmpty').style.display = 'none';
+  document.getElementById('pgResultBlocks').style.display = 'flex';
+  document.getElementById('resultActions').style.display = 'none';
+  document.getElementById('rb-breakdown').style.display = 'none';
+  document.getElementById('rb-chat').style.display = 'none';
+
+  const suggestionsHtml = (ai.invalidSuggestions || []).map(s => `
+    <button class="pg-suggestion-chip" onclick="setExample('${s.replace(/'/g, "\\'")}')">
+      <i class="ph-duotone ph-arrow-bend-right-down" style="font-size:13px;color:var(--primary-light)"></i>
+      ${escapeHtml(s)}
+    </button>`).join('');
+
+  document.getElementById('rb-phrase-content').innerHTML =
+    `<span style="color:var(--text);font-style:italic">"${escapeHtml(input)}"</span>`;
+  document.getElementById('rb-phrase').querySelector('.pg-rb-label').style.color = '#F59E0B';
+
+  document.getElementById('rb-pattern-content').innerHTML = `
+    <div class="pg-invalid-block">
+      <div class="pg-invalid-icon">
+        <i class="ph-duotone ph-lightbulb" style="font-size:32px;color:#F59E0B"></i>
+      </div>
+      <p class="pg-invalid-reason">${escapeHtml(ai.invalidReason || '')}</p>
+      <div class="pg-invalid-hint">
+        <i class="ph-fill ph-arrow-right" style="font-size:12px;color:var(--primary-light)"></i>
+        ${escapeHtml(ai.invalidHint || '')}
+      </div>
+    </div>`;
+  document.getElementById('rb-pattern').querySelector('.pg-rb-label').style.color = '#F59E0B';
+  document.getElementById('rb-pattern').querySelector('.pg-rb-label').innerHTML = `
+    <i class="ph-duotone ph-lightbulb" style="font-size:14px"></i>
+    Todavía no tiene lógica computacional`;
+
+  document.getElementById('rb-logic-content').innerHTML = `
+    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:12px">
+      Prueba con alguna de estas versiones mejoradas — solo haz clic para usarla:
+    </p>
+    <div class="pg-suggestions-list">${suggestionsHtml}</div>`;
+  document.getElementById('rb-logic').querySelector('.pg-rb-label').style.color = '#6366F1';
+  document.getElementById('rb-logic').querySelector('.pg-rb-label').innerHTML = `
+    <i class="ph-duotone ph-magic-wand" style="font-size:14px"></i>
+    Sugerencias para mejorar tu frase`;
+
+  document.getElementById('rb-code').style.display = 'none';
+  setStatus('idle', 'Agrega una condición o acción a tu frase');
 }
 
 // ── Panel de aprendizaje ──────────────────────────────────────────────────────
@@ -544,12 +709,45 @@ async function translateCode() {
 
 // ── Ejemplos rápidos ──────────────────────────────────────────────────────────
 function setExample(text) {
-  document.getElementById('humanInput').value = text;
-  document.getElementById('humanInput').focus();
+  const ta = document.getElementById('humanInput');
+  ta.value = text;
+  ta.focus();
+  // Highlight the textarea briefly
+  ta.style.borderColor = 'var(--primary)';
+  setTimeout(() => ta.style.borderColor = '', 800);
 }
 
-// ── Copiar código ─────────────────────────────────────────────────────────────
-function copyCode() {
+// ── Init al cargar ────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  renderXPBar();
+  renderLevelNav();
+
+  // Clear button
+  document.getElementById('clearBtn')?.addEventListener('click', () => {
+    document.getElementById('humanInput').value = '';
+    document.getElementById('humanInput').focus();
+    resetResult();
+  });
+
+  // Ctrl+Enter
+  document.getElementById('humanInput')?.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.ctrlKey) translateCode();
+  });
+
+  // URL param ?pattern=loop
+  const params = new URLSearchParams(window.location.search);
+  const p = params.get('pattern');
+  if (p && QUICK_LESSONS[p]) quickLesson(p);
+});
+
+// ── Template guiado ───────────────────────────────────────────────────────────
+function setTemplate(template, example) {
+  const ta = document.getElementById('humanInput');
+  ta.value = example;
+  ta.focus();
+  ta.style.borderColor = 'var(--primary)';
+  setTimeout(() => ta.style.borderColor = '', 800);
+}
   const code = window._lastCode || '';
   if (!code) return;
   navigator.clipboard.writeText(code)
@@ -630,6 +828,24 @@ const QUICK_LESSONS = {
     }
   }
 };
+
+// ── Render navegación de niveles ─────────────────────────────────────────────
+function renderLevelNav() {
+  const el = document.getElementById('pgLevelNav');
+  if (!el) return;
+  const currentLevel = Math.floor(userXP / 100) + 1;
+  el.innerHTML = LEVELS.map(lv => {
+    const unlocked = currentLevel >= lv.id;
+    return `
+      <div class="pg-level-item ${unlocked ? 'unlocked' : 'locked'}" title="${lv.desc}">
+        <div class="pg-level-icon" style="${unlocked ? `background:${lv.color}20;border-color:${lv.color}40;color:${lv.color}` : ''}">
+          <i class="ph-duotone ${lv.icon}" style="font-size:16px"></i>
+        </div>
+        <span class="pg-level-name">${lv.name}</span>
+        ${!unlocked ? '<i class="ph-fill ph-lock-simple" style="font-size:10px;color:var(--text-muted);opacity:0.5"></i>' : ''}
+      </div>`;
+  }).join('');
+}
 
 function quickLesson(key) {
   const lesson = QUICK_LESSONS[key];

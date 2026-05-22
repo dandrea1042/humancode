@@ -57,63 +57,55 @@
         </div>
       </div>
 
-      <textarea
-        id="humanInput"
-        class="pg-textarea"
-        placeholder="Escribe lo que quieres hacer en español...&#10;&#10;Ej: Si llueve, usa sombrilla.&#10;Repite esto 5 veces.&#10;Guarda el nombre del usuario."
-        spellcheck="false"
-      ></textarea>
-
-      <!-- Quick examples -->
-      <div class="pg-examples-section">
+      <!-- Templates guiados -->
+      <div class="pg-templates-section">
         <p class="pg-examples-label">
-          <i class="ph-bold ph-lightning-slash" style="font-size:12px;color:var(--accent)"></i>
-          Ejemplos rápidos
+          <i class="ph-bold ph-puzzle-piece" style="font-size:12px;color:var(--primary-light)"></i>
+          Usa una estructura lógica
         </p>
-        <div class="pg-examples-grid">
-          <button class="pg-example-btn" onclick="setExample('Si llueve, usa sombrilla.')">
-            <span class="pg-ex-icon" style="background:rgba(245,158,11,0.15);color:#F59E0B">
-              <i class="ph-duotone ph-git-branch" style="font-size:16px"></i>
-            </span>
-            <span>Si llueve, usa sombrilla.</span>
+        <div class="pg-templates-grid">
+          <button class="pg-template-btn" onclick="setTemplate('Si ___ entonces ___', 'Si llueve, usa sombrilla.')" style="--tc:#F59E0B">
+            <span class="pg-tpl-keyword">Si</span>
+            <span class="pg-tpl-desc">Tomar una decisión</span>
           </button>
-          <button class="pg-example-btn" onclick="setExample('Repite esto 5 veces.')">
-            <span class="pg-ex-icon" style="background:rgba(99,102,241,0.15);color:var(--primary-light)">
-              <i class="ph-duotone ph-arrows-clockwise" style="font-size:16px"></i>
-            </span>
-            <span>Repite esto 5 veces.</span>
+          <button class="pg-template-btn" onclick="setTemplate('Mientras ___ hacer ___', 'Mientras tenga energía, sigue corriendo.')" style="--tc:#3B82F6">
+            <span class="pg-tpl-keyword">Mientras</span>
+            <span class="pg-tpl-desc">Repetir hasta que algo cambie</span>
           </button>
-          <button class="pg-example-btn" onclick="setExample('Guarda el nombre del usuario.')">
-            <span class="pg-ex-icon" style="background:rgba(16,185,129,0.15);color:#10B981">
-              <i class="ph-duotone ph-package" style="font-size:16px"></i>
-            </span>
-            <span>Guarda el nombre del usuario.</span>
+          <button class="pg-template-btn" onclick="setTemplate('Repite ___ veces', 'Repite el saludo 5 veces.')" style="--tc:#3B82F6">
+            <span class="pg-tpl-keyword">Repite</span>
+            <span class="pg-tpl-desc">Hacer algo N veces</span>
           </button>
-          <button class="pg-example-btn" onclick="setExample('Mientras tenga energía, sigue corriendo.')">
-            <span class="pg-ex-icon" style="background:rgba(34,211,238,0.12);color:var(--cyan)">
-              <i class="ph-duotone ph-arrows-clockwise" style="font-size:16px"></i>
-            </span>
-            <span>Mientras tenga energía, sigue corriendo.</span>
+          <button class="pg-template-btn" onclick="setTemplate('Guarda ___ como ___', 'Guarda el nombre del usuario.')" style="--tc:#10B981">
+            <span class="pg-tpl-keyword">Guarda</span>
+            <span class="pg-tpl-desc">Recordar un dato</span>
           </button>
-          <button class="pg-example-btn" onclick="setExample('Intenta abrir el archivo, si falla avísame.')">
-            <span class="pg-ex-icon" style="background:rgba(239,68,68,0.12);color:#EF4444">
-              <i class="ph-duotone ph-warning-octagon" style="font-size:16px"></i>
-            </span>
-            <span>Intenta abrir el archivo, si falla avísame.</span>
+          <button class="pg-template-btn" onclick="setTemplate('Crea una acción que ___', 'Crea una acción que salude a alguien.')" style="--tc:#8B5CF6">
+            <span class="pg-tpl-keyword">Acción</span>
+            <span class="pg-tpl-desc">Instrucción reutilizable</span>
           </button>
-          <button class="pg-example-btn" onclick="setExample('Crea una acción que salude a alguien.')">
-            <span class="pg-ex-icon" style="background:rgba(236,72,153,0.12);color:var(--secondary)">
-              <i class="ph-duotone ph-lightning" style="font-size:16px"></i>
-            </span>
-            <span>Crea una acción que salude a alguien.</span>
+          <button class="pg-template-btn" onclick="setTemplate('Intenta ___, si falla ___', 'Intenta abrir el archivo, si falla avísame.')" style="--tc:#EF4444">
+            <span class="pg-tpl-keyword">Intenta</span>
+            <span class="pg-tpl-desc">Plan B si algo falla</span>
           </button>
         </div>
       </div>
 
+      <div class="pg-input-divider">
+        <span>o escribe tu propia frase</span>
+      </div>
+
+      <textarea
+        id="humanInput"
+        class="pg-textarea"
+        placeholder="Describe una situación con lógica...&#10;&#10;Ej: Si llueve, usa sombrilla.&#10;Repite esto 5 veces.&#10;Guarda el nombre del usuario."
+        spellcheck="false"
+      ></textarea>
+
       <!-- Translate button -->
       <button class="pg-translate-btn btn-glow" id="translateBtn" onclick="translateCode()">
         <i class="ph-duotone ph-magic-wand" style="font-size:20px"></i>
-        <span id="translateBtnText">Traducir a código</span>
+        <span id="translateBtnText">Convertir a código</span>
         <kbd class="pg-kbd">Ctrl + Enter</kbd>
       </button>
     </aside>
@@ -239,36 +231,44 @@
         </div>
       </div>
 
+      <!-- XP Bar -->
+      <div class="pg-xp-section" id="pgXPBar"></div>
+
       <div class="pg-learn-empty" id="learnEmpty">
         <i class="ph-duotone ph-sparkle" style="font-size:36px;color:var(--accent);opacity:0.4"></i>
-        <p>Traduce una frase para ver la lección del patrón detectado.</p>
+        <p>Traduce una frase para ver la lección del concepto detectado.</p>
       </div>
 
       <div class="pg-learn-content" id="learnContent" style="display:none">
         <!-- filled dynamically -->
       </div>
 
-      <!-- Pattern quick-nav -->
+      <!-- Level nav -->
       <div class="pg-pattern-nav">
         <p class="pg-examples-label" style="margin-bottom:10px">
+          <i class="ph-bold ph-path" style="font-size:12px;color:var(--primary-light)"></i>
+          Tu camino de aprendizaje
+        </p>
+        <div id="pgLevelNav" class="pg-level-nav"></div>
+        <p class="pg-examples-label" style="margin:14px 0 8px">
           <i class="ph-bold ph-squares-four" style="font-size:12px;color:var(--primary-light)"></i>
-          Todos los patrones
+          Explorar conceptos
         </p>
         <div class="pg-pattern-pills">
-          <button class="pg-pill" style="--c:#3B82F6" onclick="quickLesson('loop')">
-            <i class="ph-duotone ph-arrows-clockwise" style="font-size:14px"></i> Loop
-          </button>
           <button class="pg-pill" style="--c:#F59E0B" onclick="quickLesson('condition')">
-            <i class="ph-duotone ph-git-branch" style="font-size:14px"></i> Condicional
+            <i class="ph-duotone ph-git-branch" style="font-size:14px"></i> Decisión
           </button>
-          <button class="pg-pill" style="--c:#8B5CF6" onclick="quickLesson('function')">
-            <i class="ph-duotone ph-lightning" style="font-size:14px"></i> Función
+          <button class="pg-pill" style="--c:#3B82F6" onclick="quickLesson('loop')">
+            <i class="ph-duotone ph-arrows-clockwise" style="font-size:14px"></i> Repetición
           </button>
           <button class="pg-pill" style="--c:#10B981" onclick="quickLesson('variable')">
-            <i class="ph-duotone ph-package" style="font-size:14px"></i> Variable
+            <i class="ph-duotone ph-package" style="font-size:14px"></i> Guardar dato
+          </button>
+          <button class="pg-pill" style="--c:#8B5CF6" onclick="quickLesson('function')">
+            <i class="ph-duotone ph-lightning" style="font-size:14px"></i> Acción
           </button>
           <button class="pg-pill" style="--c:#EF4444" onclick="quickLesson('error')">
-            <i class="ph-duotone ph-warning-octagon" style="font-size:14px"></i> Error
+            <i class="ph-duotone ph-warning-octagon" style="font-size:14px"></i> Protección
           </button>
         </div>
       </div>

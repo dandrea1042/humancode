@@ -741,20 +741,41 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Template guiado ───────────────────────────────────────────────────────────
-function setTemplate(template, example) {
+function setTemplate(example) {
   const ta = document.getElementById('humanInput');
-  ta.value = example;
-  ta.focus();
-  ta.style.borderColor = 'var(--primary)';
-  ta.style.boxShadow = '0 0 0 2px rgba(99,102,241,0.25)';
-  setTimeout(() => {
-    ta.style.borderColor = '';
-    ta.style.boxShadow = '';
-  }, 1200);
-  // Scroll suave al textarea
-  ta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  // Seleccionar el texto para que el usuario lo vea
-  ta.select();
+  const current = ta.value.trim();
+
+  const apply = (text) => {
+    ta.value = text;
+    ta.focus();
+    // Mover cursor al final
+    ta.setSelectionRange(ta.value.length, ta.value.length);
+    // Glow de confirmación
+    ta.style.borderColor = 'var(--primary)';
+    ta.style.boxShadow = '0 0 0 2px rgba(99,102,241,0.25)';
+    setTimeout(() => {
+      ta.style.borderColor = '';
+      ta.style.boxShadow = '';
+    }, 1000);
+    ta.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  if (current && current !== example) {
+    // Ya hay texto — reemplazar sin preguntar pero con animación de fade
+    ta.style.opacity = '0.4';
+    ta.style.transition = 'opacity 0.15s';
+    setTimeout(() => {
+      apply(example);
+      ta.style.opacity = '1';
+    }, 150);
+  } else {
+    apply(example);
+  }
+
+  // Iluminar la card clickeada brevemente
+  document.querySelectorAll('.pg-template-btn').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  setTimeout(() => event.currentTarget.classList.remove('active'), 800);
 }
   const code = window._lastCode || '';
   if (!code) return;
